@@ -1,0 +1,72 @@
+spring:
+  config:
+    # Specifies additional locations for configuration files.
+    additional-location:
+      - classpath:application-local.yml
+      - file:./application-local.yml
+  datasource:
+    db2:
+      source:
+        # Configuration for the source DB2 database connection.
+        url: jdbc:db2://localhost:50010/TMCG
+        username: tmcg
+        sslConnection: false
+        driver-class-name: com.ibm.db2.jcc.DB2Driver
+        password: ${SPRING_DATASOURCE_DB2_SOURCE_PASSWORD}
+      test:
+        # Configuration for the test DB2 database connection.
+        url: jdbc:db2://10.58.97.33:50000/devdb
+        username: db2inst1
+        password: db2inst1_password
+        sslConnection: false
+        driver-class-name: com.ibm.db2.jcc.DB2Driver
+    postgres:
+      # Configuration for the PostgreSQL database connection.
+      url: jdbc:postgresql://localhost:5432/TMCG
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+    sqlite:
+      # Configuration for the SQLite database connection.
+      url: jdbc:sqlite:entities.db
+    hikari:
+      # Configuration for the Hikari connection pool.
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 150000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+  task:
+    execution:
+      pool:
+        # Indicates whether the task execution pool is enabled.
+        enabled: false
+
+logging:
+  level:
+    # Sets the logging level for the root logger.
+    root: INFO
+  file:
+    # Specifies the name of the log file.
+    name: migration.log
+  pattern:
+    # Defines the logging pattern for console output.
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] - %msg%n"
+    # Defines the logging pattern for file output.
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] - %msg%n"
+
+proxy:
+  # Configuration for the proxy settings.
+  active: false
+  host: default_proxy_host
+  port: 3128
+
+groq:
+  api-key: "${GROQ_API_KEY}"
+  model: "deepseek-r1-distill-llama-70b"
+  temperature: 0.6
+  max-tokens: 8192
+  top-p: 0.95
+  stream: false
